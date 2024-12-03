@@ -3,7 +3,7 @@
 # Wordfence API
 
 [![Packagist Version](https://img.shields.io/packagist/v/typisttech/wordfence-api?style=flat-square)](https://packagist.org/packages/typisttech/wordfence-api)
-[![PHP Version Require](http://poser.pugx.org/typisttech/wordfence-api/require/php?style=flat-square)](https://github.com/typisttech/wordfence-api/blob/readme/composer.json)
+[![PHP Version Require](https://img.shields.io/packagist/dependency-v/typisttech/wordfence-api/php)](https://github.com/typisttech/wordfence-api/blob/readme/composer.json)
 [![Test](https://github.com/typisttech/wordfence-api/actions/workflows/test.yml/badge.svg)](https://github.com/typisttech/wordfence-api/actions/workflows/test.yml)
 [![codecov](https://codecov.io/gh/typisttech/wordfence-api/graph/badge.svg?token=PGHZ7ZORC1)](https://codecov.io/gh/typisttech/wordfence-api)
 [![license](https://img.shields.io/github/license/typisttech/wordfence-api.svg?style=flat-square)](https://github.com/typisttech/wordfence-api/blob/master/LICENSE)

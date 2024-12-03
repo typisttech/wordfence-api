@@ -1,0 +1,81 @@
+name: Test
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref_name }}-${{ github.event.pull_request.number || github.sha }}
+  cancel-in-progress: true
+
+permissions:
+    contents: read # TODO!
+
+jobs:
+  pest:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php: ['8.3', '8.4']
+        prefer: [--prefer-lowest, --prefer-stable]
+        coverage: [none]
+        exclude:
+          - php: '8.4'
+            prefer: --prefer-stable
+            coverage: none
+        include:
+          - php: '8.4'
+            prefer: --prefer-stable
+            coverage: xdebug
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: ${{ matrix.coverage }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+      - uses: actions/cache@v4
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-${{ matrix.php }}-composer-${{ matrix.prefer }}-${{ hashFiles('**/composer.json') }}-${{ github.run_id }}
+          restore-keys: ${{ runner.os }}-${{ matrix.php }}-composer-${{ matrix.prefer }}-
+
+      - run: composer update --no-progress --prefer-dist --optimize-autoloader ${{ matrix.prefer }}
+
+      - run: composer pest:unit -- --ci --coverage-clover coverage.xml
+        if: ${{ matrix.coverage == 'xdebug' }}
+
+      - run: composer pest:unit -- --ci
+        if: ${{ matrix.coverage != 'xdebug' }}
+
+      - run: composer pest:feature -- --ci
+      - run: composer pest:e2e -- --ci
+
+      - uses: actions/upload-artifact@v4
+        if: ${{ matrix.coverage == 'xdebug' }}
+        with:
+          name: coverage
+          path: coverage.xml
+
+  codecov:
+    needs: pest
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: coverage
+      - uses: codecov/codecov-action@v5
+        with:
+          use_oidc: ${{ !(github.event_name == 'pull_request' && github.event.pull_request.head.repo.fork) }}

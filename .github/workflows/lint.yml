@@ -1,0 +1,45 @@
+name: Lint
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref_name }}-${{ github.event.pull_request.number || github.sha }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read # TODO!
+
+jobs:
+  pint:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php: ['8.4']
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: none
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+      - uses: actions/cache@v4
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-${{ matrix.php }}-composer-${{ hashFiles('**/composer.json') }}-${{ github.run_id }}
+          restore-keys: ${{ runner.os }}-${{ matrix.php }}-composer-
+
+      - run: composer update --no-progress --prefer-dist --optimize-autoloader
+
+      - run: composer pint:test

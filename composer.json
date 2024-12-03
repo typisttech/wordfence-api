@@ -1,0 +1,74 @@
+{
+  "name": "typisttech/wordfence-api",
+  "description": "TODO",
+  "keywords": [
+    "security",
+    "wordfence",
+    "wordpress"
+  ],
+  "homepage": "https://github.com/typisttech/wordfence-api",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Typist Tech",
+      "email": "wordfence-api@typist.tech",
+      "homepage": "https://typist.tech/"
+    },
+    {
+      "name": "Tang Rufus",
+      "email": "tangrufus@gmail.com",
+      "homepage": "https://typist.tech/",
+      "role": "Developer"
+    }
+  ],
+  "support": {
+    "email": "wordfence-api@typist.tech",
+    "issues": "https://github.com/typisttech/wordfence-api/issues",
+    "source": "https://github.com/typisttech/wordfence-api"
+  },
+  "require": {
+    "php": "^8.3",
+    "composer/semver": "^3.4",
+    "guzzlehttp/guzzle": "^7.9"
+  },
+  "require-dev": {
+    "laravel/pint": "^1.10",
+    "mockery/mockery": "^1.6",
+    "pestphp/pest": "^3.5",
+    "roave/security-advisories": "dev-latest"
+  },
+  "autoload": {
+    "psr-4": {
+      "TypistTech\\WordfenceApi\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\": "tests/"
+    }
+  },
+  "scripts": {
+    "fixture:download": [
+      "curl -o ./tests/fixtures/vulnerabilities.production.json https://www.wordfence.com/api/intelligence/v2/vulnerabilities/production",
+      "curl -o ./tests/fixtures/vulnerabilities.scanner.json https://www.wordfence.com/api/intelligence/v2/vulnerabilities/scanner"
+    ],
+    "pint": "pint",
+    "pint:test": "pint --test",
+    "pest:e2e": "pest -d memory_limit=512M --group=e2e",
+    "pest:feature": "pest -d memory_limit=640M --group=feature",
+    "pest:unit": "pest --group=unit --parallel",
+    "pest:mutate": "pest --mutate --parallel",
+    "test": [
+      "@composer pint:test",
+      "@composer pest:unit",
+      "@composer pest:feature",
+      "@composer pest:e2e"
+    ]
+  },
+  "config": {
+    "allow-plugins": {
+      "pestphp/pest-plugin": true
+    },
+    "sort-packages": true
+  }
+}

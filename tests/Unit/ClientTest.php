@@ -15,7 +15,6 @@ use TypistTech\WordfenceApi\Client;
 use TypistTech\WordfenceApi\Exceptions\HttpException;
 use TypistTech\WordfenceApi\Exceptions\InvalidJsonException;
 use TypistTech\WordfenceApi\Feed;
-use TypistTech\WordfenceApi\Record;
 use TypistTech\WordfenceApi\RecordFactory;
 
 covers(Client::class);
@@ -49,11 +48,11 @@ describe(Client::class, static function (): void {
             $expected = array_filter($records);
             expect($actualArr)->toEqualCanonicalizing($expected);
         })->with([
-            'single' => [[Mockery::mock(Record::class)]],
-            'multiple' => [[Mockery::mock(Record::class), Mockery::mock(Record::class)]],
+            'single' => fn () => [$this->dummyRecord()],
+            'multiple' => fn () => [$this->dummyRecord(), $this->dummyRecord()],
 
-            'mixed single' => [[Mockery::mock(Record::class), null]],
-            'mixed multiple' => [[Mockery::mock(Record::class), null, null, Mockery::mock(Record::class), null]],
+            'mixed single' => fn () => [$this->dummyRecord(), null],
+            'mixed multiple' => fn () => [$this->dummyRecord(), null, null, $this->dummyRecord(), null],
 
             'null single' => [[null]],
             'null multiple' => [[null, null]],

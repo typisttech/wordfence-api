@@ -6,22 +6,20 @@ namespace TypistTech\WordfenceApi;
 
 use DateTimeInterface;
 
-// TODO: Mark as `readonly` when Mockery supports it.
-// See: https://github.com/mockery/mockery/issues/1317
-class Record
+readonly class Record
 {
     /**
      * @param  Software[]  $software
      * @param  Copyright[]  $copyrights
      */
     public function __construct(
-        public readonly string $id,
-        public readonly string $title,
-        public readonly array $software,
-        public readonly array $references,
-        public readonly array $copyrights,
-        public readonly ?string $cve,
-        public readonly ?Cvss $cvss,
-        public readonly ?DateTimeInterface $published,
+        public string $id,
+        public string $title,
+        public array $software,
+        public array $references,
+        public array $copyrights,
+        public ?string $cve,
+        public ?Cvss $cvss,
+        public ?DateTimeInterface $published,
     ) {}
 }

@@ -2,13 +2,13 @@
 
 # Wordfence API
 
-[![Packagist Version](https://img.shields.io/packagist/v/typisttech/wordfence-api?style=flat-square)](https://packagist.org/packages/typisttech/wordfence-api)
+[![Packagist Version](https://img.shields.io/packagist/v/typisttech/wordfence-api)](https://packagist.org/packages/typisttech/wordfence-api)
 [![PHP Version Require](https://img.shields.io/packagist/dependency-v/typisttech/wordfence-api/php)](https://github.com/typisttech/wordfence-api/blob/readme/composer.json)
 [![Test](https://github.com/typisttech/wordfence-api/actions/workflows/test.yml/badge.svg)](https://github.com/typisttech/wordfence-api/actions/workflows/test.yml)
 [![codecov](https://codecov.io/gh/typisttech/wordfence-api/graph/badge.svg?token=PGHZ7ZORC1)](https://codecov.io/gh/typisttech/wordfence-api)
-[![license](https://img.shields.io/github/license/typisttech/wordfence-api.svg?style=flat-square)](https://github.com/typisttech/wordfence-api/blob/master/LICENSE)
-[![X Follow @TangRufus](https://img.shields.io/badge/Follow-%40TangRufus-black?style=flat-square&logo=x&logoColor=white)](https://x.com/tangrufus)
-[![Hire Typist Tech](https://img.shields.io/badge/Hire-Typist%20Tech-ff69b4.svg?style=flat-square)](https://typist.tech/contact/)
+[![license](https://img.shields.io/github/license/typisttech/wordfence-api.svg)](https://github.com/typisttech/wordfence-api/blob/master/LICENSE)
+[![X Follow @TangRufus](https://img.shields.io/badge/Follow-%40TangRufus-black?logo=x&logoColor=white)](https://x.com/tangrufus)
+[![Hire Typist Tech](https://img.shields.io/badge/Hire-Typist%20Tech-ff69b4.svg)](https://typist.tech/contact/)
 
 <p>
   <strong>Fetch WordPress vulnerability information from <a href="https://www.wordfence.com/help/wordfence-intelligence/v2-accessing-and-consuming-the-vulnerability-data-feed/">Wordfence vulnerability data feed.</a></strong>

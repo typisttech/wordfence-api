@@ -1,6 +1,6 @@
 {
   "name": "typisttech/wordfence-api",
-  "description": "TODO",
+  "description": "Fetch WordPress vulnerability information from Wordfence vulnerability data feed.",
   "keywords": [
     "security",
     "wordfence",

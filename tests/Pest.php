@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Tests\Feature\TestCase as FeatureTestCase;
+use Tests\Unit\TestCase as UnitTestCase;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,6 +34,9 @@ pest()->group('unit')
 
 pest()->extend(FeatureTestCase::class)
     ->in('Feature');
+
+pest()->extend(UnitTestCase::class)
+    ->in('Unit');
 
 /*
 |--------------------------------------------------------------------------

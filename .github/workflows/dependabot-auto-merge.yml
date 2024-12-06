@@ -1,6 +1,6 @@
 # Taken from https://docs.github.com/en/code-security/dependabot/working-with-dependabot/automating-dependabot-with-github-actions
 # and https://github.com/dependabot/fetch-metadata/blob/06ea45a2e4582d87b11f03c7ce596ae3261f39f6/README.md?plain=1#L133-L160
-name: Dependabot auto-merge
+name: Auto-merge Dependabot Pull Request
 
 on: pull_request
 

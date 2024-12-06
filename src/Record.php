@@ -21,5 +21,10 @@ readonly class Record
         public ?string $cve,
         public ?Cvss $cvss,
         public ?DateTimeInterface $published,
-    ) {}
+    ) {
+
+
+                
+
+    }
 }

@@ -14,7 +14,7 @@ permissions: {}
 
 jobs:
   pint:
-    uses: typisttech/.github/.github/workflows/auto-pint.yml@auto-pint
+    uses: typisttech/.github/.github/workflows/auto-pint.yml@v1
     permissions:
       contents: write
       pull-requests: write

@@ -32,8 +32,8 @@ jobs:
           sparse-checkout: composer.json
           sparse-checkout-cone-mode: false
 
-      - id: php-matrix
-        uses: typisttech/php-matrix-action@main
+      - uses: typisttech/php-matrix-action@main
+        id: php-matrix
 
   pest:
     runs-on: ubuntu-latest

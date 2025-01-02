@@ -19,7 +19,9 @@ jobs:
   php-matrix:
     runs-on: ubuntu-latest
     outputs:
-      matrix: ${{ fromJSON(steps.php-matrix.outputs.matrix) }}
+      versions: ${{ fromJSON(steps.php-matrix.outputs.matrix).versions }}
+      lowest: ${{ fromJSON(steps.php-matrix.outputs.matrix).lowest }}
+      highest: ${{ fromJSON(steps.php-matrix.outputs.matrix).highest }}
     steps:
       - uses: actions/checkout@v4
       - id: php-matrix

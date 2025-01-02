@@ -34,15 +34,15 @@ jobs:
     needs: php-matrix
     strategy:
       matrix:
-        php: ${{ needs.php-matrix.outputs.versions }}
+        php: ${{ fromJSON(needs.php-matrix.outputs.versions) }}
         prefer: [--prefer-lowest, --prefer-stable]
         coverage: [none]
-        exclude:
-          - php: '8.4'
-            prefer: --prefer-stable
-            coverage: none
+#        exclude:
+#          - php: ${{ needs.php-matrix.outputs.highest }}
+#            prefer: --prefer-stable
+#            coverage: none
         include:
-          - php: '8.4'
+          - php: ${{ needs.php-matrix.outputs.highest }}
             prefer: --prefer-stable
             coverage: xdebug
     steps:

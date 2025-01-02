@@ -21,7 +21,7 @@ jobs:
     outputs:
       matrix: ${{ steps.php-matrix.outputs.matrix }}
       constraint: ${{ fromJSON(steps.php-matrix.outputs.matrix).constraint }}
-      # versions: ${{ fromJSON(steps.php-matrix.outputs.matrix).versions }}
+      versions: ${{ toJSON(fromJSON(steps.php-matrix.outputs.matrix).versions) }}
       lowest: ${{ fromJSON(steps.php-matrix.outputs.matrix).lowest }}
       highest: ${{ fromJSON(steps.php-matrix.outputs.matrix).highest }}
     steps:

@@ -30,7 +30,7 @@ jobs:
     needs: php-matrix
     strategy:
       matrix:
-        php: ${{ fromJSOBN(needs.php-matrix.outputs.matrix).versions }}
+        php: ${{ fromJSON(needs.php-matrix.outputs.matrix).versions }}
         prefer: [--prefer-lowest, --prefer-stable]
         coverage: [none]
         exclude:

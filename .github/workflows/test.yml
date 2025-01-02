@@ -37,10 +37,10 @@ jobs:
         php: ${{ fromJSON(needs.php-matrix.outputs.versions) }}
         prefer: [--prefer-lowest, --prefer-stable]
         coverage: [none]
-#        exclude:
-#          - php: ${{ needs.php-matrix.outputs.highest }}
-#            prefer: --prefer-stable
-#            coverage: none
+        exclude:
+          - php: ${{ needs.php-matrix.outputs.highest }}
+            prefer: --prefer-stable
+            coverage: none
         include:
           - php: ${{ needs.php-matrix.outputs.highest }}
             prefer: --prefer-stable

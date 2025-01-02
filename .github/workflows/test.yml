@@ -45,11 +45,11 @@ jobs:
         coverage: [none]
         exclude:
           - php: ${{ needs.php-matrix.outputs.highest }}
-            dependency-versions: --prefer-stable
+            dependency-versions: highest
             coverage: none
         include:
           - php: ${{ needs.php-matrix.outputs.highest }}
-            dependency-versions: --prefer-stable
+            dependency-versions: highest
             coverage: xdebug
     steps:
       - uses: actions/checkout@v4

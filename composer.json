@@ -1,13 +1,12 @@
 {
   "name": "typisttech/wordfence-api",
   "description": "Fetch WordPress vulnerability information from Wordfence vulnerability data feed.",
+  "license": "MIT",
   "keywords": [
     "security",
     "wordfence",
     "wordpress"
   ],
-  "homepage": "https://github.com/typisttech/wordfence-api",
-  "license": "MIT",
   "authors": [
     {
       "name": "Typist Tech",
@@ -21,6 +20,7 @@
       "role": "Developer"
     }
   ],
+  "homepage": "https://github.com/typisttech/wordfence-api",
   "support": {
     "email": "wordfence-api@typist.tech",
     "issues": "https://github.com/typisttech/wordfence-api/issues",
@@ -47,28 +47,28 @@
       "Tests\\": "tests/"
     }
   },
+  "config": {
+    "allow-plugins": {
+      "pestphp/pest-plugin": true
+    },
+    "sort-packages": true
+  },
   "scripts": {
     "fixture:download": [
       "curl -o ./tests/fixtures/vulnerabilities.production.json https://www.wordfence.com/api/intelligence/v2/vulnerabilities/production",
       "curl -o ./tests/fixtures/vulnerabilities.scanner.json https://www.wordfence.com/api/intelligence/v2/vulnerabilities/scanner"
     ],
-    "pint": "pint",
-    "pint:test": "pint --test",
     "pest:e2e": "pest -d memory_limit=512M --group=e2e",
     "pest:feature": "pest -d memory_limit=640M --group=feature",
-    "pest:unit": "pest --group=unit --parallel",
     "pest:mutate": "pest --mutate --parallel",
+    "pest:unit": "pest --group=unit --parallel",
+    "pint": "pint",
+    "pint:test": "pint --test",
     "test": [
       "@composer pint:test",
       "@composer pest:unit",
       "@composer pest:feature",
       "@composer pest:e2e"
     ]
-  },
-  "config": {
-    "allow-plugins": {
-      "pestphp/pest-plugin": true
-    },
-    "sort-packages": true
   }
 }

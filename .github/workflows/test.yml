@@ -16,20 +16,26 @@ concurrency:
 permissions: {}
 
 jobs:
+  php-matrix:
+    uses: typisttech/.github/.github/workflows/php-matrix.yml@v2
+    permissions:
+      contents: read
+
   pest:
     runs-on: ubuntu-latest
+    needs: php-matrix
     strategy:
       matrix:
-        php: ['8.3', '8.4']
-        prefer: [--prefer-lowest, --prefer-stable]
+        php: ${{ fromJSON(needs.php-matrix.outputs.versions) }}
+        dependency-versions: [lowest, highest]
         coverage: [none]
         exclude:
-          - php: '8.4'
-            prefer: --prefer-stable
+          - php: ${{ needs.php-matrix.outputs.highest }}
+            dependency-versions: highest
             coverage: none
         include:
-          - php: '8.4'
-            prefer: --prefer-stable
+          - php: ${{ needs.php-matrix.outputs.highest }}
+            dependency-versions: highest
             coverage: xdebug
     steps:
       - uses: actions/checkout@v4
@@ -41,15 +47,10 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - id: composer-cache
-        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
-      - uses: actions/cache@v4
+      - uses: ramsey/composer-install@v3
         with:
-          path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-${{ matrix.php }}-composer-${{ matrix.prefer }}-${{ hashFiles('**/composer.json') }}-${{ github.run_id }}
-          restore-keys: ${{ runner.os }}-${{ matrix.php }}-composer-${{ matrix.prefer }}-
-
-      - run: composer update --no-progress --prefer-dist --optimize-autoloader ${{ matrix.prefer }}
+          dependency-versions: ${{ matrix.dependency-versions }}
+          composer-options: --no-audit --optimize-autoloader
 
       - run: composer pest:unit -- --ci --coverage-clover coverage.xml
         if: ${{ matrix.coverage == 'xdebug' }}

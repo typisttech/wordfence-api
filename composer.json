@@ -59,12 +59,11 @@
     ],
     "pest:e2e": "pest -d memory_limit=512M --group=e2e",
     "pest:feature": "pest -d memory_limit=640M --group=feature",
-    "pest:mutate": "pest --mutate --parallel",
-    "pest:unit": "pest --group=unit --parallel",
+    "pest:unit": "pest --group=unit",
     "test": [
-      "@composer pest:unit",
-      "@composer pest:feature",
-      "@composer pest:e2e"
+      "@composer normalize --dry-run",
+      "pint --test",
+      "XDEBUG_MODE=off pest -d memory_limit=640M"
     ]
   }
 }

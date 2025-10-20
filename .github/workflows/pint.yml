@@ -19,7 +19,7 @@ permissions: {}
 
 jobs:
   pint:
-    uses: typisttech/.github/.github/workflows/pint.yml@v2
+    uses: typisttech/.github/.github/workflows/pint.yml@v3
     permissions:
       contents: read
     with:

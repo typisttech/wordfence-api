@@ -25,6 +25,6 @@ permissions: {}
 
 jobs:
   composer-audit:
-    uses: typisttech/.github/.github/workflows/composer-audit.yml@v2
+    uses: typisttech/.github/.github/workflows/composer-audit.yml@v3
     permissions:
       contents: read

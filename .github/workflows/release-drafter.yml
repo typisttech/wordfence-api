@@ -14,7 +14,7 @@ permissions: {}
 
 jobs:
   release-drafter:
-    uses: typisttech/.github/.github/workflows/release-drafter.yml@v2
+    uses: typisttech/.github/.github/workflows/release-drafter.yml@v3
     permissions:
       contents: write
       pull-requests: read

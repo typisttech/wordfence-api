@@ -17,7 +17,7 @@ permissions: {}
 
 jobs:
   php-matrix:
-    uses: typisttech/.github/.github/workflows/php-matrix.yml@v2
+    uses: typisttech/.github/.github/workflows/php-matrix.yml@v3
     permissions:
       contents: read
 

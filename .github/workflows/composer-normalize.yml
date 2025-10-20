@@ -17,7 +17,7 @@ permissions: {}
 
 jobs:
   composer-normalize:
-    uses: typisttech/.github/.github/workflows/composer-normalize.yml@v2
+    uses: typisttech/.github/.github/workflows/composer-normalize.yml@v3
     permissions:
       contents: read
     secrets: inherit

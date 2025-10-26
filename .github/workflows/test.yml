@@ -54,6 +54,8 @@ jobs:
           coverage: ${{ matrix.coverage }}
 
       - uses: ramsey/composer-install@v3
+        with:
+          dependency-versions: highest
 
       - run: composer pest:unit -- --ci --coverage-clover coverage-unit.xml
         if: ${{ matrix.coverage == 'xdebug' }}

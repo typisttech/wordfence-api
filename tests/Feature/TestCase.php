@@ -15,7 +15,7 @@ abstract class TestCase extends BaseTestCase
 {
     public function mockHttpClient(Feed $feed): Http
     {
-        $path = fixture('vulnerabilities.'.$feed->label().'.json'); // TODO!
+        $path = fixture("vulnerabilities.{$feed->name}.json");
         $body = file_get_contents($path);
 
         $mock = new MockHandler([

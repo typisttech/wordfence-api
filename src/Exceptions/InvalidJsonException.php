@@ -14,7 +14,7 @@ class InvalidJsonException extends RuntimeException
         return new self(
             sprintf(
                 'Unable to parse Wordfence %s feed response: invalid JSON',
-                $feed->label(),
+                $feed->name,
             ),
         );
     }

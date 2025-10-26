@@ -4,24 +4,8 @@ declare(strict_types=1);
 
 namespace TypistTech\WordfenceApi;
 
-enum Feed
+enum Feed: string
 {
-    case Production;
-    case Scanner;
-
-    public function label(): string // TODO!
-    {
-        return match ($this) {
-            self::Production => 'production',
-            self::Scanner => 'scanner',
-        };
-    }
-
-    public function url(): string
-    {
-        return match ($this) {
-            self::Production => 'https://www.wordfence.com/api/intelligence/v2/vulnerabilities/production',
-            self::Scanner => 'https://www.wordfence.com/api/intelligence/v2/vulnerabilities/scanner',
-        };
-    }
+    case Production = 'https://www.wordfence.com/api/intelligence/v2/vulnerabilities/production';
+    case Scanner = 'https://www.wordfence.com/api/intelligence/v2/vulnerabilities/scanner';
 }

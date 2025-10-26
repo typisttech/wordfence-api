@@ -10,18 +10,28 @@ use UnexpectedValueException;
 
 readonly class AffectedVersionsParser
 {
-    private const string UNKNOWN = 'unknown';
-
     public function __construct(
         private VersionParser $parser = new VersionParser,
     ) {}
 
+    /**
+     * @param  array{from_version?: mixed, from_inclusive?: mixed, to_version?: mixed, to_inclusive?: mixed}[]  $data
+     */
     public function parse(array $data): ?ConstraintInterface
     {
         $constraints = array_map(function (array $affected): ?string {
-            $fromVersion = (string) ($affected['from_version'] ?? self::UNKNOWN);
+            $fromVersion = $affected['from_version'] ?? null;
+            if (! is_string($fromVersion)) {
+                return null;
+            }
+
             $fromInclusive = (bool) ($affected['from_inclusive'] ?? false);
-            $toVersion = (string) ($affected['to_version'] ?? self::UNKNOWN);
+
+            $toVersion = $affected['to_version'] ?? null;
+            if (! is_string($toVersion)) {
+                return null;
+            }
+
             $toInclusive = (bool) ($affected['to_inclusive'] ?? false);
 
             if ($fromVersion === '*' && $toVersion === '*') {
@@ -40,7 +50,7 @@ readonly class AffectedVersionsParser
             }
 
             if ($toVersion !== '*') {
-                if (! empty($constraint)) {
+                if ($constraint !== '') {
                     $constraint .= ', ';
                 }
 
@@ -51,23 +61,18 @@ readonly class AffectedVersionsParser
             return $constraint;
         }, $data);
 
-        $constraints = array_filter($constraints);
+        $constraints = array_filter($constraints, static fn (?string $c) => $c !== null);
+        $constraints = array_filter($constraints, static fn (string $c) => $c !== '');
         $constraints = array_values($constraints);
         $imploded = implode('||', $constraints);
 
-        if (empty($imploded)) {
-            return null;
-        }
-
-        return $this->parser->parseConstraints($imploded);
+        return $imploded === ''
+            ? null
+            : $this->parser->parseConstraints($imploded);
     }
 
     private function isValid(string $version): bool
     {
-        if ($version === self::UNKNOWN) {
-            return false;
-        }
-
         if ($version === '*') {
             return true;
         }

@@ -32,8 +32,13 @@ readonly class Client
             throw InvalidJsonException::forFeedResponse($feed);
         }
 
+        /** @var mixed[] $data */
         $data = json_decode($content, true, 512, JSON_THROW_ON_ERROR);
         foreach ($data as $datum) {
+            if (! is_array($datum)) {
+                continue;
+            }
+
             $record = $this->recordFactory->make($datum);
             if ($record !== null) {
                 yield $record;
@@ -44,7 +49,10 @@ readonly class Client
     private function get(Feed $feed): ResponseInterface
     {
         try {
-            return $this->http->get($feed->url());
+            return $this->http->request(
+                'GET',
+                $feed->url(),
+            );
         } catch (TransferException $exception) {
             // Guzzle throws exceptions for non-2xx responses.
             throw HttpException::fromResponse($feed, $exception);

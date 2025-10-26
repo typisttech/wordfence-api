@@ -9,7 +9,7 @@ class CopyrightFactory
     /** @var Copyright[] */
     private array $cache = [];
 
-    public function make(mixed $data): ?Copyright
+    public function make(mixed $data): ?Copyright // TODO!
     {
         if (! is_array($data)) {
             return null;
@@ -24,11 +24,23 @@ class CopyrightFactory
             return $copyright;
         }
 
-        $notice = (string) ($data['notice'] ?? '');
-        $license = (string) ($data['license'] ?? '');
-        $licenseUrl = (string) ($data['license_url'] ?? '');
+        $notice = $data['notice'] ?? '';
+        if (! is_string($notice)) {
+            $notice = '';
+        }
 
-        if (empty($notice) && empty($license) && empty($licenseUrl)) {
+        $license = $data['license'] ?? '';
+        if (! is_string($license)) {
+            $license = '';
+        }
+
+        $licenseUrl = $data['license_url'] ?? '';
+        if (! is_string($licenseUrl)) {
+            $licenseUrl = '';
+        }
+
+        // Must have at least one field.
+        if ($notice === '' && $license === '' && $licenseUrl === '') {
             return null;
         }
 

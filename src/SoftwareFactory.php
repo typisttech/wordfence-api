@@ -10,21 +10,31 @@ readonly class SoftwareFactory
         private AffectedVersionsParser $affectedVersionsParser = new AffectedVersionsParser,
     ) {}
 
+    /**
+     * @param  array{slug?: mixed, type?: mixed, affected_versions?: mixed}  $data
+     */
     public function make(array $data): ?Software
     {
-        $slug = (string) ($data['slug'] ?? '');
-        if (empty($slug)) {
+        $slug = $data['slug'] ?? null;
+        if (! is_string($slug) || $slug === '') {
             return null;
         }
 
-        $type = SoftwareType::tryFrom($data['type'] ?? '');
+        $rawType = $data['type'] ?? null;
+        if (! is_string($rawType) || $rawType === '') {
+            return null;
+        }
+        $type = SoftwareType::tryFrom($rawType);
         if ($type === null) {
             return null;
         }
 
-        $affectedVersions = $this->affectedVersionsParser->parse(
-            (array) ($data['affected_versions'] ?? [])
-        );
+        $rawAffectedVersions = $data['affected_versions'] ?? null;
+        if (! is_array($rawAffectedVersions)) {
+            return null;
+        }
+        $rawAffectedVersions = array_filter($rawAffectedVersions, 'is_array');
+        $affectedVersions = $this->affectedVersionsParser->parse($rawAffectedVersions);
         if ($affectedVersions === null) {
             return null;
         }

@@ -110,3 +110,10 @@ jobs:
           disable_search: true
           files: coverage-e2e.xml
           flags: e2e
+
+  wait-for-all-tests:
+    needs:
+      - pest
+    runs-on: ubuntu-latest
+    steps:
+      - run: exit 0

@@ -19,3 +19,10 @@ permissions:
 jobs:
   php:
     uses: typisttech/.github/.github/workflows/lint-php.yml@v3
+
+  wait-for-all-lint:
+    needs:
+      - php
+    runs-on: ubuntu-latest
+    steps:
+      - run: exit 0

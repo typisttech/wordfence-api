@@ -9,12 +9,15 @@ class CopyrightFactory
     /** @var Copyright[] */
     private array $cache = [];
 
-    public function make(mixed $data): ?Copyright // TODO!
+    /**
+     * @param  array{
+     *     notice?: mixed,
+     *     license?: mixed,
+     *     license_url?: mixed
+     * }  $data
+     */
+    public function make(array $data): ?Copyright
     {
-        if (! is_array($data)) {
-            return null;
-        }
-
         $key = hash(
             'xxh3',
             json_encode($data, JSON_THROW_ON_ERROR)

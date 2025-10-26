@@ -113,9 +113,15 @@ class RecordFactory
      */
     private function makeCopyrights(array $data): array
     {
+        $rawCopyrights = $data['copyrights'] ?? null;
+        if (! is_array($rawCopyrights)) {
+            return [];
+        }
+        $rawCopyrights = array_filter($rawCopyrights, static fn (mixed $s) => is_array($s));
+
         $copyrights = array_map(
-            fn (mixed $datum): ?Copyright => $this->copyrightFactory->make($datum),
-            (array) ($data['copyrights'] ?? []),
+            fn (array $datum): ?Copyright => $this->copyrightFactory->make($datum),
+            $rawCopyrights,
         );
         $copyrights = array_filter($copyrights);
 

@@ -9,7 +9,7 @@ use TypistTech\WordfenceApi\AffectedVersionsParser;
 covers(AffectedVersionsParser::class);
 
 describe(AffectedVersionsParser::class, static function (): void {
-    describe('parse', static function (): void {
+    describe('::parse()', static function (): void {
         dataset('affected_versions_json_strings', [
             // Single
             '>=1.1.1, <=2.2.2' => ['>=1.1.1, <=2.2.2', '{"foo.bar": {"from_version": "1.1.1","from_inclusive": true,"to_version": "2.2.2","to_inclusive": true}}'],
@@ -69,7 +69,7 @@ describe(AffectedVersionsParser::class, static function (): void {
             'multiple' => '{"[*, 3.7)": {"from_version": "","from_inclusive": true,"to_version": "3.7","to_inclusive": false},"3.7 - 3.7.13": {"from_version": "3.7","from_inclusive": true,"to_version": "","to_inclusive": true},"3.8 - 3.8.13": {"from_version": "not a version","from_inclusive": true,"to_version": "3.8.13","to_inclusive": true},"3.9 - 3.9.11": {"from_version": "3.9","from_inclusive": true,"to_version": "not a version","to_inclusive": true}}',
         ]);
 
-        it('returns null when all data is invalid', function (string $jsonString): void {
+        it('returns null when data is invalid', function (string $jsonString): void {
             $data = json_decode($jsonString, true, 512, JSON_THROW_ON_ERROR);
 
             $parser = new AffectedVersionsParser;

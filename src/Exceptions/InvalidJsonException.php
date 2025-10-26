@@ -7,7 +7,7 @@ namespace TypistTech\WordfenceApi\Exceptions;
 use RuntimeException;
 use TypistTech\WordfenceApi\Feed;
 
-class InvalidJsonException extends RuntimeException
+class InvalidJsonException extends RuntimeException implements ExceptionInterface
 {
     public static function forFeedResponse(Feed $feed): self
     {

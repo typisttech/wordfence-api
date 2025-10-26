@@ -8,7 +8,7 @@ use GuzzleHttp\Exception\TransferException;
 use RuntimeException;
 use TypistTech\WordfenceApi\Feed;
 
-class HttpException extends RuntimeException
+class HttpException extends RuntimeException implements ExceptionInterface
 {
     public static function fromResponse(Feed $feed, TransferException $original): self
     {

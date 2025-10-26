@@ -1,2 +1,0 @@
-fixes:
-  - "wordfence-api/::" # reduce root e.g., "wordfence-api/src/" => "src/"

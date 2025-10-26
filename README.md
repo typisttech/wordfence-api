@@ -23,6 +23,17 @@
 
 ---
 
+> [!TIP]
+> **Hire Tang Rufus!**
+>
+> I am looking for my next role, freelance or full-time.
+> If you find this package useful, I can build you more API clients like this.
+> Let's talk if you are hiring PHP / Ruby / Go developers.
+>
+> Contact me at https://typist.tech/contact/
+
+---
+
 ## Usage
 
 ```php
@@ -30,7 +41,7 @@ use \TypistTech\WordfenceAPI\{Client, Feed, Record};
 
 $client = new Client;
 
-// Alternatively, use `Feed::Scanner`` for the scanner feed.
+// Alternatively, use `Feed::Scanner` for the scanner feed.
 $records = $client->fetch(Feed::Production);
 
 foreach($records as $record) {
@@ -39,42 +50,50 @@ foreach($records as $record) {
 }
 ```
 
-## Installation
-
-```bash
-composer require typisttech/wordfence-api
-```
-
 ## Known Issues
-
 
 ### `Allowed memory size of 999999 bytes exhausted (tried to allocate 99 bytes)`
 
 > [!TIP]
 > Set `memory_limit` on the fly as a temporary fix:
 >
-> ```bash
+> ```sh
 > php -d memory_limit=512MB your-script.php
 > ```
 
 As of October 2025, the [production Wordfence vulnerability data feed](https://www.wordfence.com/api/intelligence/v2/vulnerabilities/production) is over 117 MB.
-[`Client`](src/Client.php) downloads the feed into memory and `json_decode()` the entire feed all in one go. 
+[`Client::fetch()`](./src/Client.php) downloads the feed into memory and `json_decode()` the entire feed all in one go.
 It causes PHP to run out of memory.
 
 A possible solution is to use a streaming JSON parser like [`json.Decoder`](https://pkg.go.dev/encoding/json#example-Decoder.Decode-Stream) in Go.
 If you know how to do that in PHP, please send pull requests. :bow:
 
+> [!TIP]
+> **Hire Tang Rufus!**
+>
+> There is no need to understand any of these quirks.
+> Let me handle them for you.
+> I am seeking my next job, freelance or full-time.
+>
+> If you are hiring PHP / Ruby / Go developers,
+> contact me at https://typist.tech/contact/
+
+## Installation
+
+```sh
+composer require typisttech/wordfence-api
+```
+
 ## Credits
 
-[`Wordfence API`](https://github.com/typisttech/wordfence-api) is a [Typist Tech](https://typist.tech) project and
-maintained by [Tang Rufus](https://x.com/TangRufus), freelance developer [for hire](https://typist.tech/contact/).
+[`Wordfence API`](https://github.com/typisttech/wordfence-api) is a [Typist Tech](https://typist.tech) project and maintained by [Tang Rufus](https://x.com/TangRufus), freelance developer [for hire](https://typist.tech/contact/).
 
 Full list of contributors can be found [on GitHub](https://github.com/typisttech/wordfence-api/graphs/contributors).
 
 ## Copyright and License
 
-This project is a [free software](https://www.gnu.org/philosophy/free-sw.en.html) distributed under the terms of
-the MIT license. For the full license, see [LICENSE](./LICENSE).
+This project is a [free software](https://www.gnu.org/philosophy/free-sw.en.html) distributed under the terms of the MIT license.
+For the full license, see [LICENSE](./LICENSE).
 
 ### Wordfence Intelligence Terms and Conditions
 
@@ -86,8 +105,7 @@ If you have any questions about the terms and conditions, please contact Wordfen
 
 ### MITRE Attribution Requirement
 
-Any company or individual who uses Wordfence vulnerability database API needs to display the MITRE copyright 
-claims included in that vulnerability record for any MITRE vulnerabilities that they display to their end user.
+Any company or individual who uses Wordfence vulnerability database API needs to display the MITRE copyright claims included in that vulnerability record for any MITRE vulnerabilities that they display to their end user.
 
 Learn more at [Wordfence help documentation](https://www.wordfence.com/help/wordfence-intelligence/v2-accessing-and-consuming-the-vulnerability-data-feed/#mitre_attribution_requirement).
 

@@ -17,7 +17,7 @@ use TypistTech\WordfenceApi\SoftwareType;
 covers(RecordFactory::class);
 
 describe(RecordFactory::class, static function (): void {
-    describe('make', static function (): void {
+    describe('::make()', static function (): void {
         dataset('raw_record_json_strings', static function (): array {
             $semVerParser = new VersionParser;
 
@@ -177,40 +177,38 @@ JSON;
             'published' => ['published', ''],
         ])->with('raw_record_json_strings');
 
-        describe('error case', static function (): void {
-            test('field is unset', function (string $field, string $jsonString): void {
-                $data = json_decode($jsonString, true, 512, JSON_THROW_ON_ERROR);
-                unset($data[$field]);
+        it('returns null when field is unset', function (string $field, string $jsonString): void {
+            $data = json_decode($jsonString, true, 512, JSON_THROW_ON_ERROR);
+            unset($data[$field]);
 
-                $factory = new RecordFactory;
+            $factory = new RecordFactory;
 
-                $actual = $factory->make($data);
+            $actual = $factory->make($data);
 
-                expect($actual)->toBeNull();
-            })->with([
-                'id',
-                'title',
-                'software',
-            ])->with('raw_record_json_strings');
+            expect($actual)->toBeNull();
+        })->with([
+            'id',
+            'title',
+            'software',
+        ])->with('raw_record_json_strings');
 
-            test('field is empty', function (string $field, mixed $value, string $jsonString): void {
-                $data = json_decode($jsonString, true, 512, JSON_THROW_ON_ERROR);
-                $data[$field] = $value;
+        it('returns null when field is empty', function (string $field, mixed $value, string $jsonString): void {
+            $data = json_decode($jsonString, true, 512, JSON_THROW_ON_ERROR);
+            $data[$field] = $value;
 
-                $factory = new RecordFactory;
+            $factory = new RecordFactory;
 
-                $actual = $factory->make($data);
+            $actual = $factory->make($data);
 
-                expect($actual)->toBeNull();
-            })->with([
-                'id' => ['id', ''],
-                'title' => ['title', ''],
-                'software' => ['software', []],
+            expect($actual)->toBeNull();
+        })->with([
+            'id' => ['id', ''],
+            'title' => ['title', ''],
+            'software' => ['software', []],
 
-                'null id' => ['id', null],
-                'null title' => ['title', null],
-                'null software' => ['software', null],
-            ])->with('raw_record_json_strings');
-        });
+            'null id' => ['id', null],
+            'null title' => ['title', null],
+            'null software' => ['software', null],
+        ])->with('raw_record_json_strings');
     });
 });

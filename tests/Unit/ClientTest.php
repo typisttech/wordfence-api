@@ -20,7 +20,7 @@ use TypistTech\WordfenceApi\RecordFactory;
 covers(Client::class);
 
 describe(Client::class, static function (): void {
-    describe('fetch', static function (): void {
+    describe('::fetch()', static function (): void {
         it('decodes', function (array $records): void {
             $recordFactory = Mockery::mock(RecordFactory::class);
 
@@ -58,7 +58,7 @@ describe(Client::class, static function (): void {
             'null multiple' => [[null, null]],
         ]);
 
-        it('throws wrapped exception', function (mixed $queueItem): void {
+        it('throws HttpException when non-2xx', function (mixed $queueItem): void {
             $mock = new MockHandler([$queueItem]);
             $handlerStack = HandlerStack::create($mock);
             $http = new Http(['handler' => $handlerStack]);
@@ -76,7 +76,7 @@ describe(Client::class, static function (): void {
             new RequestException('Error Communicating with Server', new Request('GET', 'test')),
         ])->throws(HttpException::class);
 
-        it('throws exception for invalid JSON content', function (mixed $queueItem): void {
+        it('throws InvalidJsonException for invalid JSON content', function (mixed $queueItem): void {
             $mock = new MockHandler([$queueItem]);
             $handlerStack = HandlerStack::create($mock);
             $http = new Http(['handler' => $handlerStack]);

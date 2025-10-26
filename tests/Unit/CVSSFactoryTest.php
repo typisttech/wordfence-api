@@ -11,7 +11,7 @@ use TypistTech\WordfenceApi\CvssRating;
 covers(CvssFactory::class);
 
 describe(CvssFactory::class, static function (): void {
-    describe('make', static function (): void {
+    describe('::make()', static function (): void {
         dataset('raw_cvss_json_strings', static function (): array {
             $jsonString65 = <<<JSON
 {
@@ -55,42 +55,40 @@ JSON;
             expect($actual)->toEqual($expected);
         })->with('raw_cvss_json_strings');
 
-        describe('error case', static function (): void {
-            test('field is unset', function (string $field, string $jsonString): void {
-                $data = json_decode($jsonString, true, 512, JSON_THROW_ON_ERROR);
-                unset($data[$field]);
+        it('returns null when field is unset', function (string $field, string $jsonString): void {
+            $data = json_decode($jsonString, true, 512, JSON_THROW_ON_ERROR);
+            unset($data[$field]);
 
-                $cvssFactory = new CvssFactory;
+            $cvssFactory = new CvssFactory;
 
-                $actual = $cvssFactory->make($data);
+            $actual = $cvssFactory->make($data);
 
-                expect($actual)->toBeNull();
-            })->with([
-                'vector',
-                'score',
-                'rating',
-            ])->with('raw_cvss_json_strings');
+            expect($actual)->toBeNull();
+        })->with([
+            'vector',
+            'score',
+            'rating',
+        ])->with('raw_cvss_json_strings');
 
-            test('field is empty', function (string $field, mixed $value, string $jsonString): void {
-                $data = json_decode($jsonString, true, 512, JSON_THROW_ON_ERROR);
-                $data[$field] = $value;
+        it('returns null when field is empty', function (string $field, mixed $value, string $jsonString): void {
+            $data = json_decode($jsonString, true, 512, JSON_THROW_ON_ERROR);
+            $data[$field] = $value;
 
-                $cvssFactory = new CvssFactory;
+            $cvssFactory = new CvssFactory;
 
-                $actual = $cvssFactory->make($data);
+            $actual = $cvssFactory->make($data);
 
-                expect($actual)->toBeNull();
-            })->with([
-                'vector' => ['vector', ''],
-                'int score' => ['score', 0],
-                'float score' => ['score', 0.0],
-                'rating' => ['rating', ''],
-                'unexpected rating' => ['rating', 'not a rating'],
+            expect($actual)->toBeNull();
+        })->with([
+            'vector' => ['vector', ''],
+            'int score' => ['score', 0],
+            'float score' => ['score', 0.0],
+            'rating' => ['rating', ''],
+            'unexpected rating' => ['rating', 'not a rating'],
 
-                'null vector' => ['vector', null],
-                'null score' => ['score', null],
-                'null rating' => ['rating', null],
-            ])->with('raw_cvss_json_strings');
-        });
+            'null vector' => ['vector', null],
+            'null score' => ['score', null],
+            'null rating' => ['rating', null],
+        ])->with('raw_cvss_json_strings');
     });
 });

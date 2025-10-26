@@ -10,7 +10,7 @@ use TypistTech\WordfenceApi\CopyrightFactory;
 covers(CopyrightFactory::class);
 
 describe(CopyrightFactory::class, static function (): void {
-    describe('make', static function (): void {
+    describe('::make()', static function (): void {
         dataset('raw_copyright_json_strings', static function (): array {
             $defiantJsonString = <<<'JSON'
 {
@@ -116,6 +116,37 @@ JSON;
 
             expect($actual)->toEqual($expected);
         })->with('raw_copyright_json_strings_missing_fields');
+
+        it('returns null when all fields are empty', function (string $jsonString): void {
+            $data = json_decode($jsonString, true, 512, JSON_THROW_ON_ERROR);
+
+            $factory = new CopyrightFactory;
+
+            $actual = $factory->make($data);
+
+            expect($actual)->toBeNull();
+        })->with([
+            '[]',
+            '{}',
+
+            '{"notice": ""}',
+            '{"license": ""}',
+            '{"license_url": ""}',
+
+            '{"notice": "","license": ""}',
+            '{"notice": "","license_url": ""}',
+            '{"license": "","license_url": ""}',
+
+            '{"notice": "","license": "","license_url": ""}',
+
+            '{"notice": null,"license": "","license_url": ""}',
+            '{"notice": "","license": null,"license_url": ""}',
+            '{"notice": "","license": "","license_url": null}',
+            '{"notice": null,"license": null,"license_url": ""}',
+            '{"notice": null,"license": "","license_url": null}',
+            '{"notice": "","license": null,"license_url": null}',
+            '{"notice": null,"license": null,"license_url": null}',
+        ]);
 
         it('decodes to the same object', function (): void {
             $foo = ['notice' => 'I am notice foo'];

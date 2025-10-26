@@ -22,7 +22,7 @@ describe(Client::class, static function (): void {
 
         expect($actualCount)->toBeGreaterThanOrEqual($expectedCount);
     })->with([
-        Feed::Production->name => [Feed::Production, 20500],
-        Feed::Scanner->name => [Feed::Scanner, 20500],
+        Feed::Production->name => [Feed::Production, 30109],
+        Feed::Scanner->name => [Feed::Scanner, 30086],
     ]);
 });

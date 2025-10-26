@@ -13,14 +13,10 @@ use TypistTech\WordfenceApi\Feed;
 
 abstract class TestCase extends BaseTestCase
 {
-    private const array FEEDS = [
-        Feed::Production->name => __DIR__.'/../fixtures/vulnerabilities.production.json',
-        Feed::Scanner->name => __DIR__.'/../fixtures/vulnerabilities.scanner.json',
-    ];
-
     public function mockHttpClient(Feed $feed): Http
     {
-        $body = file_get_contents(self::FEEDS[$feed->name]);
+        $path = fixture('vulnerabilities.'.$feed->label().'.json'); // TODO!
+        $body = file_get_contents($path);
 
         $mock = new MockHandler([
             new Response(200, [], $body),

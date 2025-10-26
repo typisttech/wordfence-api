@@ -57,20 +57,23 @@ jobs:
         with:
           dependency-versions: highest
 
-      - run: composer pest:unit -- --ci --coverage-clover coverage-unit.xml
-        if: ${{ matrix.coverage == 'xdebug' }}
 
-      - run: composer pest:unit -- --ci
-        if: ${{ matrix.coverage != 'xdebug' }}
 
-      - run: composer pest:feature -- --ci
-      - run: composer pest:e2e -- --ci
+      - run: composer pest:unit -- ${COVERAGE} --ci
+        env:
+          COVERAGE: ${{ matrix.coverage == 'xdebug' && '--coverage-clover coverage-unit.xml' || '' }}
+      - run: composer pest:feature -- ${COVERAGE} --ci
+        env:
+          COVERAGE: ${{ matrix.coverage == 'xdebug' && '--coverage-clover coverage-feature.xml' || '' }}
+      - run: composer pest:e2e -- ${COVERAGE} --ci
+        env:
+          COVERAGE: ${{ matrix.coverage == 'xdebug' && '--coverage-clover coverage-e2e.xml' || '' }}
 
       - uses: actions/upload-artifact@v4
         if: ${{ matrix.coverage == 'xdebug' }}
         with:
           name: coverage
-          path: coverage-unit.xml
+          path: coverage-*.xml
 
   codecov:
     needs: pest
@@ -91,3 +94,19 @@ jobs:
           disable_search: true
           files: coverage-unit.xml
           flags: unit
+
+      - uses: codecov/codecov-action@v5
+        with:
+          use_oidc: true
+          fail_ci_if_error: true
+          disable_search: true
+          files: coverage-feature.xml
+          flags: feature
+
+      - uses: codecov/codecov-action@v5
+        with:
+          use_oidc: true
+          fail_ci_if_error: true
+          disable_search: true
+          files: coverage-e2e.xml
+          flags: e2e

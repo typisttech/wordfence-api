@@ -14,7 +14,7 @@ class HttpException extends RuntimeException
     {
         $message = sprintf(
             'Unable to fetch from Wordfence %s feed. %s',
-            $feed->label(),
+            $feed->name,
             $original->getMessage(),
         );
 

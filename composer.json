@@ -60,8 +60,8 @@
     },
     "scripts": {
         "fixture:download": [
-            "curl -o ./tests/Fixtures/vulnerabilities.production.json https://www.wordfence.com/api/intelligence/v2/vulnerabilities/production",
-            "curl -o ./tests/Fixtures/vulnerabilities.scanner.json https://www.wordfence.com/api/intelligence/v2/vulnerabilities/scanner"
+            "curl -o ./tests/Fixtures/vulnerabilities.Production.json https://www.wordfence.com/api/intelligence/v2/vulnerabilities/production",
+            "curl -o ./tests/Fixtures/vulnerabilities.Scanner.json https://www.wordfence.com/api/intelligence/v2/vulnerabilities/scanner"
         ],
         "lint": [
             "@composer normalize --dry-run",

@@ -49,10 +49,7 @@ readonly class Client
     private function get(Feed $feed): ResponseInterface
     {
         try {
-            return $this->http->request(
-                'GET',
-                $feed->url(),
-            );
+            return $this->http->request('GET', $feed->value);
         } catch (TransferException $exception) {
             // Guzzle throws exceptions for non-2xx responses.
             throw HttpException::fromResponse($feed, $exception);

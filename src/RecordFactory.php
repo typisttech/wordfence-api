@@ -6,7 +6,6 @@ namespace TypistTech\WordfenceApi;
 
 use DateTimeImmutable;
 use DateTimeZone;
-use Exception;
 
 // TODO: Mark as `readonly` when Mockery supports it.
 // See: https://github.com/mockery/mockery/issues/1317
@@ -18,20 +17,32 @@ class RecordFactory
         private readonly CvssFactory $cvssFactory = new CvssFactory,
     ) {}
 
+    /**
+     * @param  array{
+     *     id?: mixed,
+     *     title?: mixed,
+     *     software?: mixed,
+     *     references?: mixed,
+     *     copyrights?: mixed,
+     *     cve?: mixed,
+     *     cvss?: mixed,
+     *     published?: mixed
+     * }  $data
+     */
     public function make(array $data): ?Record
     {
-        $id = (string) ($data['id'] ?? '');
-        if (empty($id)) {
+        $id = $data['id'] ?? '';
+        if (! is_string($id) || $id === '') {
             return null;
         }
 
-        $title = (string) ($data['title'] ?? '');
-        if (empty($title)) {
+        $title = $data['title'] ?? '';
+        if (! is_string($title) || $title === '') {
             return null;
         }
 
         $software = $this->makeSoftware($data);
-        if (empty($software)) {
+        if ($software === []) {
             return null;
         }
 
@@ -39,8 +50,8 @@ class RecordFactory
 
         $copyrights = $this->makeCopyrights($data);
 
-        $cve = (string) ($data['cve'] ?? '');
-        if (empty($cve)) {
+        $cve = $data['cve'] ?? null;
+        if (! is_string($cve) || $cve === '') {
             $cve = null;
         }
 
@@ -63,13 +74,20 @@ class RecordFactory
     }
 
     /**
+     * @param  array{software?: mixed}  $data
      * @return Software[]
      */
     private function makeSoftware(array $data): array
     {
+        $rawSoftwares = $data['software'] ?? null;
+        if (! is_array($rawSoftwares)) {
+            return [];
+        }
+        $rawSoftwares = array_filter($rawSoftwares, static fn (mixed $s) => is_array($s));
+
         $softwares = array_map(
             fn (array $datum): ?Software => $this->softwareFactory->make($datum),
-            (array) ($data['software'] ?? []),
+            $rawSoftwares,
         );
         $softwares = array_filter($softwares);
 
@@ -77,19 +95,20 @@ class RecordFactory
     }
 
     /**
+     * @param  array{references?: mixed}  $data
      * @return string[]
      */
     private function makeReferences(array $data): array
     {
         $references = (array) ($data['references'] ?? []);
-        $references = array_filter($references, static fn (mixed $r): bool => is_string($r));
-        $references = array_filter($references);
-        $references = array_values($references);
+        $references = array_filter($references, static fn (mixed $r) => is_string($r));
+        $references = array_filter($references, static fn (string $r) => $r !== '');
 
-        return empty($references) ? [] : $references;
+        return array_values($references);
     }
 
     /**
+     * @param  array{copyrights?: mixed}  $data
      * @return Copyright[]
      */
     private function makeCopyrights(array $data): array
@@ -103,22 +122,22 @@ class RecordFactory
         return array_values($copyrights);
     }
 
+    /**
+     * @param  array{published?: mixed}  $data
+     */
     private function makePublished(array $data): ?DateTimeImmutable
     {
-        static $utc;
-        if (! isset($utc)) {
-            $utc = new DateTimeZone('UTC');
-        }
-
-        $datum = (string) ($data['published'] ?? '');
-        if (empty($datum)) {
+        $datum = $data['published'] ?? null;
+        if (! is_string($datum) || $datum === '') {
             return null;
         }
 
-        try {
-            return DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $datum, $utc);
-        } catch (Exception) {
-            return null;
-        }
+        $datetime = DateTimeImmutable::createFromFormat(
+            'Y-m-d H:i:s',
+            $datum,
+            new DateTimeZone('UTC'),
+        );
+
+        return $datetime === false ? null : $datetime;
     }
 }

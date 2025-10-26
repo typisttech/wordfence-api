@@ -10,6 +10,7 @@ readonly class Record
 {
     /**
      * @param  Software[]  $software
+     * @param  string[]  $references
      * @param  Copyright[]  $copyrights
      */
     public function __construct(

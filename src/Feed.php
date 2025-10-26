@@ -9,7 +9,7 @@ enum Feed
     case Production;
     case Scanner;
 
-    public function label(): string
+    public function label(): string // TODO!
     {
         return match ($this) {
             self::Production => 'production',

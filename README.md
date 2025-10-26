@@ -57,7 +57,7 @@ composer require typisttech/wordfence-api
 > php -d memory_limit=512MB your-script.php
 > ```
 
-As of December 2024, the [production Wordfence vulnerability data feed](https://www.wordfence.com/api/intelligence/v2/vulnerabilities/production) is over 80 MB.
+As of October 2025, the [production Wordfence vulnerability data feed](https://www.wordfence.com/api/intelligence/v2/vulnerabilities/production) is over 117 MB.
 [`Client`](src/Client.php) downloads the feed into memory and `json_decode()` the entire feed all in one go. 
 It causes PHP to run out of memory.
 

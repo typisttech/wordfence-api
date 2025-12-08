@@ -25,6 +25,7 @@ jobs:
 
   wait-for-all-lint:
     needs:
+      - actions
       - php
     runs-on: ubuntu-latest
     steps:
